@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage
-from PIL import Image, ImageTk # pip install Pillow
+from PIL import Image, ImageTk
 import os
 
 from data import quiz_data
@@ -10,7 +10,7 @@ from functions import init_quiz, current_question, answer, reset
 # -----Base config-----
 root = tk.Tk()
 root.title("Quiz game")
-root.geometry("1600x1000")
+root.geometry("1400x800")
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -18,6 +18,7 @@ bg_color = "#2A233B"
 fg_color = "#DFCDDE"
 title_font = ("Montserrat", 35, "bold")
 body_font_lg =  ("Montserrat", 20)
+body_font_mm = ("Montserrat", 15)
 body_font_sm = ("Montserrat", 10)
 button_font = ("System", 20, "bold")
 
@@ -120,7 +121,7 @@ def info_page():
     "hurry, you’re more likely to miss small details, such as an off-looking email address, a slightly "
     "wrong URL, or a message that feels urgent. That moment of lowered focus is what phishing exploits."
 )
-    body(info_text, body_font_lg)
+    body(info_text, body_font_mm)
     
     button_left("RETURN", welcome_page)
     button_right("NEXT", types_page)
@@ -130,27 +131,24 @@ def types_page():
     title("Different forms of phishing")
     
     types_text = (
-    "1. Mass phishing\n\n"
+    "1. Mass phishing\n"
     "Generic fake emails sent to many people. They often claim to be from a familiar service such as your "
     "bank or a delivery company and include a link to click or a file to open. These are the most common "
-    "type and rely on volume rather than precision.\n\n\n"
-    "2. Spear phishing\n\n"
+    "type and rely on volume rather than precision.\n\n"
+    "2. Spear phishing\n"
     "Targeted messages written specifically for you or your organization. The attacker uses real details "
-    "like your name, role, and company to sound convincing. They are harder to detect because the message "
-    "feels personal.\n\n\n"
-    "3. Business Email Compromise (BEC)\n\n"
+    "like your name, role, and company to sound convincing.\n\n"
+    "3. Business Email Compromise (BEC)\n"
     "The attacker pretends to be a boss, colleague, or vendor to request money or sensitive data. It often "
     "looks completely legitimate because it uses a familiar tone and formatting. Financial loss is usually "
-    "the goal.\n\n\n"
+    "the goal.\n\n"
     "4. Credential phishing\n\n"
     "Emails that lead to fake login pages designed to steal usernames and passwords. The website looks "
     "identical to the real one but the URL is slightly wrong. This is how many account breaches start.\n\n\n"
-    "5. Email spoofing\n\n"
+    "5. Email spoofing\n"
     "Attackers forge or mimic legitimate addresses so the email appears to come from a trusted source. "
     "They can manipulate sender names or domain lookalikes. Technical protections such as SPF, DKIM, and "
     "DMARC help block this, but not all systems enforce them.\n\n"
-    "These are the critical categories that represent the majority of real phishing threats and show how "
-    "attackers typically trick users into giving access, money, or information."
 )
     body(types_text, body_font_sm)
     
@@ -274,7 +272,7 @@ class SecurityTips:
             "  Spotify → GraniteRiver7!Music\n"
             "  LinkedIn → GraniteRiver7!Work\n\n"
             "The pattern is consistent, but each password is different.")
-        body(text, body_font_lg)
+        body(text, body_font_mm)
             
         button_left("RETURN", self.pswd_manager)
         button_right("NEXT", self.data_breaches)
