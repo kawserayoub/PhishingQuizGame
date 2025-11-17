@@ -1,6 +1,6 @@
 # To be Phished or not to be Phished
 
-Ett interaktivt quiz som tränare användare i att upptäcka phishing mejl. Ett tidigare prototyp finns i mappen "ProofOfConcept".
+Ett interaktivt quiz som tränar användare i att upptäcka phishing mejl. Ett tidigare prototyp finns i mappen "ProofOfConcept".
 
 Projektstruktur
 
