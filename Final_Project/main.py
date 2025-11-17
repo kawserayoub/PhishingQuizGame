@@ -10,10 +10,11 @@ from functions import init_quiz, current_question, answer, reset
 # -----Base config-----
 root = tk.Tk()
 root.title("Quiz game")
-root.geometry("1400x800")
+root.geometry("1200x800")
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
+# Why? if you have a fish memory like me
 bg_color = "#2A233B"
 fg_color = "#DFCDDE"
 title_font = ("Montserrat", 35, "bold")
@@ -41,12 +42,14 @@ bg_label.place(x=0, y=0, relwidth=1, relheight=1)
 root.bind("<Configure>", bg)
 
 # -----Helpers-------
+# Creating this fuction allows to create "One window, many pages" approach instead of "One window per page"
 def clear():
     for c in root.winfo_children():
         if c is bg_label:  # keeps the background
             continue
         c.destroy()
-        
+
+# Create a function for title, body text and buttons to minimize redundancy and pain in my poor fingers
 def title(text):
     frame= tk.Frame(root, bg=bg_color, padx=20, pady=10)
     frame.place(relx=0.5, rely=0.08, anchor="center")
@@ -64,7 +67,7 @@ def button(text, cmd=None, relx=0.5, rely=0.88):
     frame = tk.Frame(root, bg=bg_color, padx=20, pady=20)
     frame.place(relx=relx, rely=rely, anchor="center")
     
-    #For testing
+    # Enables to test every page
     if cmd is None: 
         btn = tk.Button(frame, text=text, font=button_font, fg=fg_color,
                                     bg=bg_color, padx=20, pady=20)
