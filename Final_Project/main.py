@@ -14,7 +14,7 @@ root.geometry("1200x800")
 
 base_dir = os.path.dirname(os.path.abspath(__file__))
 
-# Why? if you have a fish memory like me
+# Why? if you have a fish memory like me. Centralised theme settings that are reused connsistently in the project.
 bg_color = "#2A233B"
 fg_color = "#DFCDDE"
 title_font = ("Montserrat", 35, "bold")
@@ -24,11 +24,13 @@ body_font_sm = ("Montserrat", 10)
 button_font = ("System", 20, "bold")
 
 # -----Background image-----
-bg_path = os.path.join(base_dir, "images", "background2.png") # Loading background image for the program
+bg_path = os.path.join(base_dir, "images", "background.png") # Loading background image for the program
 bg_original = Image.open(bg_path) # Using a different library because PhotoImage wasnt able to resize the image
 bg_photo = None
 
-# Function to resize background image dynamically
+# Resize and update the background image everytime the window size changes.
+# Triggerd by the <Configure> event
+# Store on module level so Tkinter doesnt garbafe collect the image
 def bg(event=None):
     global bg_photo
     w = root.winfo_width()
@@ -43,13 +45,18 @@ root.bind("<Configure>", bg)
 
 # -----Helpers-------
 # Creating this fuction allows to create "One window, many pages" approach instead of "One window per page"
+# Removes all direct children of root except the backgorund label. This is how we switch between pages in a single window
 def clear():
     for c in root.winfo_children():
         if c is bg_label:  # keeps the background
             continue
         c.destroy()
 
-# Create a function for title, body text and buttons to minimize redundancy and pain in my poor fingers
+# Create a cosmetic functions for title, body text and buttons to minimize redundancy and pain in my poor fingers
+# Layout positions (relx/rely) are tuned for:
+# - title near top (0.08)
+# - body centered (0.45)
+# - buttons at bottom (0.88)
 def title(text):
     frame= tk.Frame(root, bg=bg_color, padx=20, pady=10)
     frame.place(relx=0.5, rely=0.08, anchor="center")
@@ -67,7 +74,7 @@ def button(text, cmd=None, relx=0.5, rely=0.88):
     frame = tk.Frame(root, bg=bg_color, padx=20, pady=20)
     frame.place(relx=relx, rely=rely, anchor="center")
     
-    # Enables to test every page
+    # command = None creates a "dead" button for layout testing
     if cmd is None: 
         btn = tk.Button(frame, text=text, font=button_font, fg=fg_color,
                                     bg=bg_color, padx=20, pady=20)
@@ -86,12 +93,12 @@ def button_left(text, cmd=None):
 def button_right(text, cmd=None):
     return button(text, cmd, relx=0.75, rely=0.88)
 
-# Preloading quiz images
+# Attaches a Tkinter PhotoImage to each question so quiz() can use q["image_obj"] directly
 for q in quiz_data:
     images = os.path.join(base_dir, "images", q["image_path"])
     q["image_obj"] = PhotoImage(file=images)
     
-# Initiating quiz
+# A dict manages by functions.py
 quiz_state = init_quiz()
 
 # -----Pages-------
@@ -214,12 +221,13 @@ def results():
     score = quiz_state["score"]
     total = quiz_state["total"]
     
-    title("You result")
+    title("Your result")
     
     body(f"You scored {score} out of {total}", body_font_lg)
     
     button_center("Security tips", tips.intro)
     
+# -----Security Tips Class that handles multi page flow-----
 class SecurityTips:
     def __init__(self,root):
         self.root = root
@@ -238,7 +246,7 @@ class SecurityTips:
         
     def two_fa(self):
         clear()
-        title("Use two factor authentication (2FA)")
+        title("Use two-factor authentication (2FA)")
             
         text = ("Even if someone steals your password, two-factor authentication (2FA) blocks them "
             "from logging in.\n\n"
